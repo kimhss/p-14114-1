@@ -2,6 +2,7 @@ package com.back.domain.member.member.controller;
 
 
 import com.back.domain.member.member.dto.MemberDto;
+import com.back.domain.member.member.dto.MemberWithUsernameDto;
 import com.back.domain.member.member.entity.Member;
 import com.back.domain.member.member.service.MemberService;
 import com.back.global.exceptions.ServiceException;
@@ -112,13 +113,9 @@ public class ApiV1MemberController {
 
 
     @GetMapping("/me")
-    public RsData<MemberDto> me() {
-        Member actor = rq.getActor();
+    public MemberWithUsernameDto me() {
+        Member actor = memberService.findById(rq.getActor().getId()).get();
 
-        return new RsData<>(
-                "200-1",
-                "%s님의 정보입니다.".formatted(actor.getName()),
-                new MemberDto(actor)
-        );
+        return new MemberWithUsernameDto(actor);
     }
 }
