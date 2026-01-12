@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+    private final CustomAuthenticationFilter customAuthenticationFilter;
 
     @Bean
     PasswordEncoder passwordEncoder() {
