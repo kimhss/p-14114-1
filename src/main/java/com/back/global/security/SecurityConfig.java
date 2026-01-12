@@ -16,11 +16,6 @@ public class SecurityConfig {
     private final CustomAuthenticationFilter customAuthenticationFilter;
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http
                 .authorizeHttpRequests(
