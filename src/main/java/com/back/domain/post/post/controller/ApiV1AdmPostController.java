@@ -7,6 +7,7 @@ import com.back.global.rq.Rq;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,12 +24,8 @@ public class ApiV1AdmPostController {
             long all
     ){}
 
+    @GetMapping("/count")
     public AdmPostCountResBody count() {
-        Member actor = rq.getActor();
-
-        if(!actor.isAdmin())
-            throw new ServiceException("403-1", "권한이 없습니다.");
-
         return new AdmPostCountResBody(postService.count());
     }
 
