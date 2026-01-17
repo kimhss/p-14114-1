@@ -8,6 +8,7 @@ import com.back.domain.member.member.service.MemberService;
 import com.back.global.exceptions.ServiceException;
 import com.back.global.rq.Rq;
 import com.back.global.rsData.RsData;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
@@ -16,6 +17,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,6 +44,8 @@ public class ApiV1MemberController {
     }
 
     @PostMapping
+    @Transactional
+    @Operation(summary = "가입")
     public RsData<MemberDto> join(
             @Valid @RequestBody MemberJoinReqBody reqBody
     ) {
@@ -77,6 +81,8 @@ public class ApiV1MemberController {
     }
 
     @PostMapping("/login")
+    @Transactional(readOnly = true)
+    @Operation(summary = "로그인")
     public RsData<MemberLoginResBody> login(
             @Valid @RequestBody MemberLoginReqBody reqBody
     ) {
@@ -101,6 +107,7 @@ public class ApiV1MemberController {
     }
 
     @DeleteMapping("/logout")
+    @Operation(summary = "로그아웃")
     public RsData<Void> logout() {
         rq.deleteCookie("apiKey");
 
@@ -112,6 +119,8 @@ public class ApiV1MemberController {
 
 
     @GetMapping("/me")
+    @Transactional(readOnly = true)
+    @Operation(summary = "내 정보")
     public MemberWithUsernameDto me() {
         Member actor = memberService.findById(rq.getActor().getId()).get();
 
